@@ -21,7 +21,7 @@ class Journalist(User):
     photo = models.ImageField(
         upload_to='images/profile_pictures')
     is_chief = models.BooleanField()
-    slug = models.SlugField(allow_unicode=True, unique=True)
+    slug = models.SlugField(allow_unicode=True, unique=True, editable=False)
     posts = models.ManyToManyField('Post', through='JournalistPost')
 
     def __str__(self) -> str:
@@ -35,7 +35,7 @@ class Journalist(User):
 
 class Post(models.Model):
     title = models.TextField(max_length=256)
-    slug = models.SlugField(allow_unicode=True, unique=True)
+    slug = models.SlugField(allow_unicode=True, unique=True, editable=False)
     author = models.ManyToManyField(Journalist, through='JournalistPost')
     image = models.ImageField(
         upload_to='images/news_pictures')
@@ -96,7 +96,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='post',
                              on_delete=models.CASCADE)
     content = models.TextField()
-    content_html = models.TextField()
+    content_html = models.TextField(editable=False)
     create_date = models.DateTimeField(auto_now_add=True)
     publish_date = models.DateTimeField(auto_now_add=True)
     approve = models.BooleanField()
