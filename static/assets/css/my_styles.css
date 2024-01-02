@@ -1,0 +1,51 @@
+.navbar-container {
+  position: fixed;
+  width: 100%;
+  color: rgb(231, 232, 234);
+}
+
+#navbar {
+  background: rgb(33, 37, 41);
+  border-color: var(--bs-navbar-disabled-color);
+}
+
+#navcol-3 {
+  background: #212529;
+}
+
+#navbar-element-group {
+  background: var(--bs-body-color);
+  color: var(--bs-body-bg);
+}
+
+.nav-item {
+  color: rgb(224, 224, 224);
+}
+
+#navbar-button {
+  color: rgb(218, 216, 216);
+  font-weight: bold;
+}
+
+#search-area {
+  padding-top: 5px;
+  padding-left: 7px;
+}
+
+#login-button {
+  background: rgb(113, 113, 113);
+  border-style: none;
+}
+
+#content-div {
+  display: flex;
+}
+
+.footer-container {
+  height: 200px;
+}
+
+#footer-area {
+  position: relative;
+  height: 100%;
+}

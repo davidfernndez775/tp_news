@@ -18,8 +18,8 @@ class Theme(models.Model):
 
 class Journalist(User):
     description = models.TextField(max_length=256)
-    photo = models.ImageField(
-        upload_to='images/profile_pictures')
+    photo = models.ImageField(default='',
+                              upload_to='images/profile_pictures')
     is_chief = models.BooleanField()
     slug = models.SlugField(allow_unicode=True, unique=True, editable=False)
     posts = models.ManyToManyField('Post', through='JournalistPost')
