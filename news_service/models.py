@@ -16,7 +16,12 @@ class Theme(models.Model):
         return self.theme
 
 
-class Journalist(User):
+class Journalist(models.Model):
+    # establecemos la relacion con la clase User de Django
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='journalist')
+    # cambiamos el nombre del campo id(PrimaryKey) por defecto para evitar conflictos con el id de la clase User
+    journalist_id = models.AutoField(primary_key=True, default=None)
     description = models.TextField(max_length=256)
     photo = models.ImageField(default='',
                               upload_to='images/profile_pictures')
