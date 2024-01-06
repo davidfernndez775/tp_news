@@ -28,12 +28,12 @@ urlpatterns = [
 # para subir imagenes y contenido multimedia
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# # para configurar el debug toolbar
-# if settings.DEBUG:
-#     import debug_toolbar
-#     urlpatterns = [
-#         path('__debug__/', include(debug_toolbar.urls))
-#     ] + urlpatterns
+# para configurar el debug toolbar
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls))
+    ] + urlpatterns
 
 # Personalizacion del Panel de Administracion
 admin.site.site_header = "TP News Administration"

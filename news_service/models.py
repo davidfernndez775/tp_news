@@ -30,11 +30,11 @@ class Journalist(models.Model):
     posts = models.ManyToManyField('Post', through='JournalistPost')
 
     def __str__(self) -> str:
-        return self.username
+        return self.user.username
 
     def save(self, *args, **kwargs):
         '''funcion que mejora la visualidad en la direccion del navegador'''
-        self.slug = slugify(self.username)
+        self.slug = slugify(self.user.username)
         super().save(*args, **kwargs)
 
 
