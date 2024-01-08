@@ -131,3 +131,9 @@ class Comment(models.Model):
         # definimos el orden en el que queremos ver los posts
         ordering = ['-create_date']
         unique_together = ['user', 'content']
+
+
+class Bulletin_Suscriptor(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='suscriptor')
+    is_suscript = models.BooleanField()
