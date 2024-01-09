@@ -134,6 +134,5 @@ class Comment(models.Model):
 
 
 class Bulletin_Suscriptor(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='suscriptor')
-    is_suscript = models.BooleanField()
+    username = models.CharField(max_length=50)
+    email = models.EmailField(max_length=254)
