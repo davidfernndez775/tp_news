@@ -12,3 +12,7 @@ from . import models
 class NewsListView(generic.ListView):
     model = models.Post
     template_name = 'news_service/news_list.html'
+
+
+class NewsDetailView(generic.DetailView):
+    model = models.Post

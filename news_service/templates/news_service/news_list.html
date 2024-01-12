@@ -3,4 +3,40 @@
     Home
 {% endblock title %}
 {% block content %}
+    <div class="container">
+        <div class="row">
+            {% comment %} Main space {% endcomment %}
+            <div class="col-md-8">
+                <div class="card-group">
+                    {% for post in post_list %}
+                        <div class="card">
+                            <img class="card-img-top w-100 d-block" src="{{ post.image.url }}">
+                            <div class="card-body">
+                                <h4>
+                                    <a id="card-title" href="{% url "news_detail" slug=post.slug %}">{{ post.title }}</a>
+                                </h4>
+                                <p class="card-text">Published on: {{ post.publish_date|date:"D M Y" }}</p>
+                                <p>
+                                    Author: {{ post.author }}
+                                    {% comment %} {% for author in post.journalist.all %}
+                                        {{ author.description }}
+
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %} {% endcomment %}
+                                </p>
+                                {% comment %} <ul>
+                                        {% for journalist_post_instance in post_instance.journalist_posts.all %}
+                                            <li>{{ journalist_post_instance.journalists.user.username }}</li>
+                                            <!-- Puedes acceder a otros campos de Journalist si los hay -->
+                                        {% endfor %}
+                                </ul> {% endcomment %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% comment %} Sidebar {% endcomment %}
+            <div class="col-md-4"></div>
+        </div>
+    </div>
 {% endblock content %}

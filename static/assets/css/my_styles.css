@@ -2,6 +2,7 @@
   position: fixed;
   width: 100%;
   color: rgb(231, 232, 234);
+  z-index: 1000;
 }
 
 #navbar {
@@ -53,3 +54,7 @@
 /* #search-text {
   color: rgb(239, 239, 239);
 } */
+
+.class-group {
+  background-color: aliceblue;
+}

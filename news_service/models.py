@@ -1,3 +1,5 @@
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -88,7 +90,7 @@ class JournalistPost(models.Model):
         Post, related_name='posts', on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.journalist.username
+        return self.journalist.user.username
 
     class Meta:
         # definimos una pareja de elementos que juntos deben ser unicos, por ejemplo en cada posts no pueden haber dos journalist con el mismo nombre
@@ -136,3 +138,16 @@ class Comment(models.Model):
 class Bulletin_Suscriptor(models.Model):
     username = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
+
+
+@receiver(post_save, sender=Post)
+def create_journalist(sender, instance, created, **kwargs):
+    if created:
+        print("Signal triggered!")
+        # Obtener el primer Journalist asociado al usuario
+        journalist = instance.author.first()
+
+        # Si hay un Journalist, asociarlo al Post
+        if journalist:
+            JournalistPost.objects.create(
+                journalist=journalist, posts=instance)
