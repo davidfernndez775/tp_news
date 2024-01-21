@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ post.slug }}
+{% endblock title %}
+{% block content %}
+    <div class="container" id="news_header">
+        <img src="{{ post.image.url }}" width="100%">
+        <h3>{{ post.title }}</h3>
+        <p>Published on: {{ post.publish_date|date:"D M Y" }}</p>
+    </div>
+    <div class="container" id="news_content">
+        <p>{{ post.content }}</p>
+    </div>
+    <div class="container" id="about_author">
+        <p>Author: {{ post.author.user.firstname }}</p>
+        <p>{{ post.author.description }}</p>
+    </div>
+{% endblock content %}
+{% comment %} Sidebar {% endcomment %}
+{% block sidebar %}
+    <div class="container" id="sidebar-container">{% include "news_service/sidebar.html" %}</div>
+{% endblock sidebar %}

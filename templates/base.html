@@ -22,7 +22,8 @@
         <div class="navbar-container">
             <nav class="navbar navbar-expand-lg bg-dark py-3" id="navbar">
                 <div class="container">
-                    <a class="navbar-brand d-flex align-items-center" href="#">
+                    <a class="navbar-brand d-flex align-items-center"
+                       href="{% url "news_service:news_list" %}">
                         <img src="{% static "assets/img/logo.png" %}" width="60em" height="60em" alt="">
                     </a>
                     <button data-bs-toggle="collapse"
@@ -33,7 +34,9 @@
                     <div class="collapse navbar-collapse" id="navcol-3">
                         <ul class="navbar-nav mx-auto" id="navbar-element-group">
                             <li class="nav-item">
-                                <a class="nav-link active" id="navbar-button" href="#">RECENT</a>
+                                <a class="nav-link active"
+                                   id="navbar-button"
+                                   href="{% url "news_service:news_list" %}">RECENT</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" id="navbar-button" href="#">POLITICS</a>
@@ -56,20 +59,28 @@
                                 </div>
                             </li>
                         </ul>
-                        <button class="btn btn-primary" type="button" id="login-button">
-                            <strong>LOGIN</strong>
-                        </button>
+                        {% if user.is_authenticated %}
+                            <p class="navbar-text" id="welcome">Welcome: {{ user.username }}</p>
+                            <img src="{{ journalist.photo.url }}" alt="" width="30em" height="30em">
+                        {% else %}
+                            <a href="{% url 'accounts:login' %}">
+                                <button class="btn btn-primary" type="button" id="login-button">
+                                    <strong>LOGIN</strong>
+                                </button>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </nav>
         </div>
-        <div class="flex-grow-1 body-container" id="content-div">
+        {% comment %} para hacer responsive columns {% endcomment %}
+        <div class="container-fluid body-container" id="content-div">
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-12 col-sm-12 col-md-9">
                     {% block content %}
                     {% endblock content %}
                 </div>
-                <div class="col-md-3">
+                <div class="col-12 col-sm-12 col-md-3">
                     {% block sidebar %}
                     {% endblock sidebar %}
                 </div>

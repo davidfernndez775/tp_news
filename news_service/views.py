@@ -16,3 +16,8 @@ class NewsListView(generic.ListView):
 
 class NewsDetailView(generic.DetailView):
     model = models.Post
+    template_name = 'news_service/news_detail.html'
+
+
+class BoardView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'news_service/board.html'

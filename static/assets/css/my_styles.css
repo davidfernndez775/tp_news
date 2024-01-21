@@ -40,6 +40,8 @@
 
 #content-div {
   display: flex;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 .footer-container {
@@ -57,4 +59,26 @@
 
 .class-group {
   background-color: aliceblue;
+}
+
+#news-container{
+  margin-bottom: 5%;
+}
+
+#side-card{
+  width: 18rem;
+  margin-bottom: 5%;
+}
+
+#side-title{
+  color: rgb(218, 216, 216);
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: #212529;
+}
+
+#welcome{
+  color: rgb(218, 216, 216);
+  font-weight: bold;
+  font-size: 1rem;
 }
