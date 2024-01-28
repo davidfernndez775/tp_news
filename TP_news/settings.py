@@ -131,8 +131,8 @@ STATICFILES_DIRS = [BASE_DIR/"static/",]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
 
-LOGIN_REDIRECT_URL = 'news_service:board'
-LOGOUT_REDIRECT_URL = 'news_list'
+LOGIN_REDIRECT_URL = 'news_service:news_list'
+LOGOUT_REDIRECT_URL = 'news_service:news_list'
 
 INTERNAL_IPS = ['127.0.0.1']
 

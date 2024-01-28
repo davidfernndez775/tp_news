@@ -33,6 +33,10 @@
   padding-left: 7px;
 }
 
+.custom-search-input {
+  color: rgb(239, 239, 239);
+}
+
 #login-button {
   background: rgb(113, 113, 113);
   border-style: none;
@@ -61,24 +65,104 @@
   background-color: aliceblue;
 }
 
-#news-container{
+#news-container {
   margin-bottom: 5%;
 }
 
-#side-card{
+#side-card {
   width: 18rem;
   margin-bottom: 5%;
 }
 
-#side-title{
+#side-title {
   color: rgb(218, 216, 216);
   font-weight: bold;
   font-size: 1rem;
   background-color: #212529;
 }
 
-#welcome{
+#welcome {
   color: rgb(218, 216, 216);
   font-weight: bold;
   font-size: 1rem;
+}
+
+.profile-card {
+  padding-top: 50px;
+  text-align: center;
+  margin-bottom: 15px;
+  border: 1px solid #212529;
+}
+
+.profile-back {
+  background-color: #212529;
+  height: 150px;
+  margin-bottom: -75px;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.profile-name {
+  background-color: #212529;
+  color: #fff;
+  font-family: "Actor", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px 0;
+  border-radius: 100px;
+  max-width: 300px;
+  margin: 0 auto 10px auto;
+}
+
+.profile-bio {
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.profile-card .social-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.profile-card .social-list li i {
+  background-color: #212529;
+  color: #fff;
+  padding: 10px 11px;
+  border-radius: 100%;
+}
+
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.btn-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#profile-button {
+  background-color: #212529;
+  border-color: #212529;
+}
+
+#login-container {
+  margin-top: 100px;
+}
+
+#login-circle {
+  background-color: #212529;
+}
+
+#login-button2 {
+  background-color: #212529;
+  border-color: #212529;
 }

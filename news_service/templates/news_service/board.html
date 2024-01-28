@@ -1,6 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="container">
-        <p>profile</p>
+    <div class="profile-card">
+        <div class="profile-back"></div>
+        <img class="rounded-circle profile-pic"
+             src="{{ user.journalist.photo.url }}"
+             alt="">
+        <h3 class="profile-name">{{ user.journalist.slug }}</h3>
+        <h3 class="profile-name">@{{ user.username }}</h3>
+        <p class="profile-bio">{{ user.journalist.description }}</p>
+        <ul class="social-list">
+            <li>
+                <i class="fa fa-facebook-official"></i>
+            </li>
+            <li>
+                <i class="fa fa-twitter-square"></i>
+            </li>
+            <li>
+                <i class="fa fa-linkedin-square"></i>
+            </li>
+        </ul>
+        <div class="btn-toolbar justify-content-center">
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary" type="button" id="profile-button">My News</a>
+                <a class="btn btn-primary" type="button" id="profile-button">Create News</a>
+                <a class="btn btn-primary" type="button" id="profile-button">Update News</a>
+                <a class="btn btn-primary" type="button" id="profile-button">Pedding Comments</a>
+                <a class="btn btn-primary" type="button" id="profile-button">Edit Profile</a>
+                <a class="btn btn-primary"
+                   type="button"
+                   id="profile-button"
+                   href="{% url "accounts:logout" %}">Logout</a>
+            </div>
+        </div>
     </div>
 {% endblock content %}

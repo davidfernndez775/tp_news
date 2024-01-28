@@ -5,6 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.urls import reverse
 from django.views import generic
 from . import models
+from django.contrib.auth import get_user_model
+User = get_user_model()  # nopep8
+
 
 # Create your views here.
 
@@ -19,5 +22,6 @@ class NewsDetailView(generic.DetailView):
     template_name = 'news_service/news_detail.html'
 
 
-class BoardView(LoginRequiredMixin, generic.TemplateView):
+class BoardView(LoginRequiredMixin, generic.DetailView):
+    model = models.Journalist
     template_name = 'news_service/board.html'

@@ -1,4 +1,5 @@
 from django.db.models.signals import post_save
+from django.conf import settings
 from django.dispatch import receiver
 from django.db import models
 from django.urls import reverse
@@ -21,9 +22,7 @@ class Theme(models.Model):
 class Journalist(models.Model):
     # establecemos la relacion con la clase User de Django
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='journalist')
-    # cambiamos el nombre del campo id(PrimaryKey) por defecto para evitar conflictos con el id de la clase User
-    journalist_id = models.AutoField(primary_key=True, default=None)
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='journalist', primary_key=True)
     description = models.TextField(max_length=256)
     photo = models.ImageField(default='',
                               upload_to='images/profile_pictures')
@@ -74,9 +73,9 @@ class Post(models.Model):
         self.approve = True
         self.save()
 
-    def get_absolute_url(self):
-        '''funcion por defecto para cuando termine de crear un post vaya a una url determinada'''
-        return reverse("post_detail", kwargs={"slug": self.slug})
+    # def get_absolute_url(self):
+    #     '''funcion por defecto para cuando termine de crear un post vaya a una url determinada'''
+    #     return reverse("news_detail", kwargs={"slug": self.slug})
 
     class Meta:
         # definimos el orden en que queremos ver los grupos

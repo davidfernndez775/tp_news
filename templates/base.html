@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="{% static "assets/css/Navbar-Centered-Links-icons.css" %}">
         <link rel="stylesheet" href="{% static "assets/css/Search-Input-Responsive-with-Icon.css" %}">
         <link rel="stylesheet" href="{% static "assets/css/Search-Input-responsive.css" %}">
+        <link rel="stylesheet" href="{% static "assets/css/Login-Form-Basic-icons.css" %}">
     </head>
     <body class="flex-column">
         <div class="navbar-container">
@@ -53,15 +54,19 @@
                                     <input class="float-start float-sm-end custom-search-input"
                                            type="search"
                                            id="search-text"
-                                           placeholder="Type to filter by news title"
-                                           style="color: rgb(239, 239, 239)">
+                                           placeholder="Type to filter by news title">
                                     <i class="fas fa-search float-start search-icon"></i>
                                 </div>
                             </li>
                         </ul>
                         {% if user.is_authenticated %}
                             <p class="navbar-text" id="welcome">Welcome: {{ user.username }}</p>
-                            <img src="{{ journalist.photo.url }}" alt="" width="30em" height="30em">
+                            <a href="{% url "news_service:board" slug=user.journalist.slug %}">
+                                <img src="{{ user.journalist.photo.url }}"
+                                     alt=""
+                                     width="30em"
+                                     height="30em">
+                            </a>
                         {% else %}
                             <a href="{% url 'accounts:login' %}">
                                 <button class="btn btn-primary" type="button" id="login-button">
@@ -74,17 +79,9 @@
             </nav>
         </div>
         {% comment %} para hacer responsive columns {% endcomment %}
-        <div class="container-fluid body-container" id="content-div">
-            <div class="row">
-                <div class="col-12 col-sm-12 col-md-9">
-                    {% block content %}
-                    {% endblock content %}
-                </div>
-                <div class="col-12 col-sm-12 col-md-3">
-                    {% block sidebar %}
-                    {% endblock sidebar %}
-                </div>
-            </div>
+        <div class="container">
+            {% block content %}
+            {% endblock content %}
         </div>
         <div class="footer-container">
             <footer class="text-center bg-dark" id="footer-area">

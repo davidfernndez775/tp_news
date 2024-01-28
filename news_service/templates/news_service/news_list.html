@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "base_with_sidebar.html" %}
 {% block title %}
     Home
 {% endblock title %}
-{% block content %}
+{% block main_content %}
     <div class="row gy-4 row-col-1 row-cols-md-2">
         {% for post in post_list|slice:":4" %}
             {% comment %} se agrega el slice para limitar la cantidad de resultados {% endcomment %}
@@ -34,7 +34,7 @@
             </div>
         {% endfor %}
     </div>
-{% endblock content %}
+{% endblock main_content %}
 {% comment %} Sidebar {% endcomment %}
 {% block sidebar %}
     <div class="container" id="sidebar-container">{% include "news_service/sidebar.html" %}</div>
