@@ -1,6 +1,12 @@
 {% extends "base.html" %}
+{% load bootstrap5 %}
 {% block content %}
-    <div class="container">
-        <p>signup</p>
+    <div class="container" id="container-gen">
+        <h2>Sign Up</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button class="btn btn-primary" type="submit">Sign Up</button>
+        </form>
     </div>
 {% endblock content %}

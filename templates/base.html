@@ -18,6 +18,8 @@
         <link rel="stylesheet" href="{% static "assets/css/Search-Input-Responsive-with-Icon.css" %}">
         <link rel="stylesheet" href="{% static "assets/css/Search-Input-responsive.css" %}">
         <link rel="stylesheet" href="{% static "assets/css/Login-Form-Basic-icons.css" %}">
+        <link rel="stylesheet" href="{% static "assets/css/Profile-Card.css" %}">
+        <link rel="stylesheet" href="{% static "assets/css/Projects-Grid-Horizontal-images.css" %}">
     </head>
     <body class="flex-column">
         <div class="navbar-container">
@@ -60,9 +62,10 @@
                             </li>
                         </ul>
                         {% if user.is_authenticated %}
-                            <p class="navbar-text" id="welcome">Welcome: {{ user.username }}</p>
+                            <p class="navbar-text" id="welcome">Welcome: {{ user.journalist.slug }}</p>
                             <a href="{% url "news_service:board" slug=user.journalist.slug %}">
-                                <img src="{{ user.journalist.photo.url }}"
+                                <img class="rounded-circle"
+                                     src="{{ user.journalist.photo.url }}"
                                      alt=""
                                      width="30em"
                                      height="30em">
@@ -88,7 +91,7 @@
                 <div class="container text-white py-4 py-lg-5">
                     <ul class="list-inline">
                         <li class="list-inline-item me-4">
-                            <a class="link-light" href="#">Our journalists</a>
+                            <a class="link-light" href="{% url "news_service:journalists_list" %}">Our journalists</a>
                         </li>
                         <li class="list-inline-item me-4">
                             <a class="link-light" href="#">Bulletin Suscription</a>

@@ -42,7 +42,10 @@ class Journalist(models.Model):
 class Post(models.Model):
     title = models.TextField(max_length=256)
     slug = models.SlugField(allow_unicode=True, unique=True, editable=False)
-    author = models.ManyToManyField(Journalist, through='JournalistPost')
+    main_author = models.ForeignKey(
+        Journalist, related_name='main_author', on_delete=models.CASCADE)
+    other_authors = models.ManyToManyField(
+        Journalist, through='JournalistPost', blank=True)
     image = models.ImageField(
         upload_to='images/news_pictures')
     content = models.TextField()
