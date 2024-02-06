@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from news_service.forms import JournalistSignupForm
 from django.contrib.auth.models import User, Group
 from news_service.models import Journalist
@@ -28,3 +29,11 @@ class SignUp(PermissionRequiredMixin, CreateView):
         self.object.groups.add(self.object.group)
 
         return response
+
+
+class JournalistDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "accounts.delete_user"
+    template_name = 'accounts/delete_journalist.html'
+    model = User
+    success_url = reverse_lazy("news_service:journalists_list")
+# TODO falta la logica para una vez que se borra un usuario dejar su informacion en los post relacionados

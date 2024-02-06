@@ -62,10 +62,11 @@
                             </li>
                         </ul>
                         {% if user.is_authenticated %}
-                            <p class="navbar-text" id="welcome">Welcome: {{ user.journalist.slug }}</p>
+                            <p class="navbar-text" id="welcome">Welcome: {{ request.user.username }}</p>
+                            {% comment %} Se pone request.user para referenciar al usuario logueado, no al que objeto User que estemos usando en una operacion {% endcomment %}
                             <a href="{% url "news_service:board" slug=user.journalist.slug %}">
                                 <img class="rounded-circle"
-                                     src="{{ user.journalist.photo.url }}"
+                                     src="{{ request.user.journalist.photo.url }}"
                                      alt=""
                                      width="30em"
                                      height="30em">

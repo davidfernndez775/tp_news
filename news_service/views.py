@@ -35,6 +35,6 @@ class CreateNewsView(LoginRequiredMixin, generic.CreateView):
     success_url = "//"
 
 
-class JournalistsList(generic.ListView):
+class JournalistsListView(generic.ListView):
     model = models.Journalist
     template_name = 'news_service/journalists.html'

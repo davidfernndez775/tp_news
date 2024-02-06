@@ -27,7 +27,11 @@
                                 <a id="card-title">{{ journalist.user.first_name }} {{ journalist.user.last_name }}</a>
                             </h4>
                             <p class="card-text">{{ journalist.description }}</p>
-                            {% if user.journalist.is_chief %}<a class="btn btn-danger" type="button" href="">Remove</a>{% endif %}
+                            {% if user.journalist.is_chief %}
+                                <a class="btn btn-danger"
+                                   type="button"
+                                   href="{% url "accounts:delete_journalist" pk=journalist.pk %}">Remove</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
