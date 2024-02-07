@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container" id="container-gen">
-        <form class="text-center" method="post" id="delete-form">
+        <form action="" method="post">
             {% csrf_token %}
-            <h3>Are you sure that you want to delete the journalist "{{ object }}"?:</h3>
-            <input type="submit" value="Confirm"  class="btn btn-danger">
+            <h1>Are you sure you want to delete the journalist {{ user }}?</h1>
+            <input type="submit" value="Confirm Delete" class="btn btn-danger">
             <a href="{% url 'news_service:journalists_list' %}"
                class="btn btn-secondary">Cancel</a>
         </form>

@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic import CreateView, DeleteView
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import CreateView, DetailView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
@@ -7,6 +7,7 @@ from news_service.forms import JournalistSignupForm
 from django.contrib.auth.models import User, Group
 from news_service.models import Journalist
 from accounts.forms import MyUserCreateForm
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -30,10 +31,29 @@ class SignUp(PermissionRequiredMixin, CreateView):
 
         return response
 
+# # esta variante borra al usuario de la base de datos, no recomendado
+# class JournalistDeleteView(PermissionRequiredMixin, DeleteView):
+#     permission_required = "accounts.delete_user"
+#     template_name = 'accounts/delete_journalist.html'
+#     model = User
+#     success_url = reverse_lazy("news_service:journalists_list")
 
-class JournalistDeleteView(PermissionRequiredMixin, DeleteView):
-    permission_required = "accounts.delete_user"
-    template_name = 'accounts/delete_journalist.html'
+# con esta forma en lugar de borrar al usuario de la base de datos se establece el parametro is_active en False, con lo cual ya no se puede loguear en el sitio, recomendado
+
+
+class UserConfirmDelete(DetailView):
     model = User
-    success_url = reverse_lazy("news_service:journalists_list")
-# TODO falta la logica para una vez que se borra un usuario dejar su informacion en los post relacionados
+    template_name = 'accounts/delete_journalist.html'
+
+    # funcion para poner is_active en False
+    def delete_user(self, pk):
+        user = User.objects.get(pk=pk)
+        user.is_active = False
+        user.save()
+        return redirect('news_service:journalists_list')
+
+    # como la confirmacion y la eliminacion se hacen en la misma pagina, es necesario usar dispath de tal manera que cuando se reciba un GET muestre la pagina, y cuando reciba un POST (o sea se ejecuta el formulario de eliminacion) devuelva la ejecucion de la funcion delete_user que esta dentro de la misma clase UserConfirmDelete
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            return self.delete_user(pk=self.kwargs['pk'])
+        return super().dispatch(request, *args, **kwargs)

@@ -13,28 +13,31 @@
         </div>
         <div class="row gy-4 row-col-1 row-cols-md-2">
             {% for journalist in journalist_list %}
-                <div class="col">
-                    <div class="d-flex flex-column flex-lg-row" id="journalist-card">
-                        <div class="w-50">
-                            <img class="rounded img-fluid d-block w-100 fit-cover"
-                                 src="{{ journalist.photo.url }}"
-                                 width="70%"
-                                 height="100%"
-                                 alt="">
-                        </div>
-                        <div class="py-4 py-lg-0 px-lg-4">
-                            <h4>
-                                <a id="card-title">{{ journalist.user.first_name }} {{ journalist.user.last_name }}</a>
-                            </h4>
-                            <p class="card-text">{{ journalist.description }}</p>
-                            {% if user.journalist.is_chief %}
-                                <a class="btn btn-danger"
-                                   type="button"
-                                   href="{% url "accounts:delete_journalist" pk=journalist.pk %}">Remove</a>
-                            {% endif %}
+                {% if journalist.user.is_active %}
+                    <div class="col">
+                        <div class="d-flex flex-column flex-lg-row" id="journalist-card">
+                            <div class="w-50">
+                                <img class="rounded img-fluid d-block w-100 fit-cover"
+                                     src="{{ journalist.photo.url }}"
+                                     width="70%"
+                                     height="100%"
+                                     alt="">
+                            </div>
+                            <div class="py-4 py-lg-0 px-lg-4">
+                                <h4>
+                                    <a id="card-title">{{ journalist.user.first_name }} {{ journalist.user.last_name }}</a>
+                                </h4>
+                                <p class="card-text">{{ journalist.description }}</p>
+                                {% comment %} TODO quitar la propiedad is_chief y hacerlo por la pertenencia al grupo chief editor {% endcomment %}
+                                {% if user.journalist.is_chief %}
+                                    <a class="btn btn-danger"
+                                       type="button"
+                                       href="{% url "accounts:delete_journalist" pk=journalist.user.pk %}">Remove</a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
