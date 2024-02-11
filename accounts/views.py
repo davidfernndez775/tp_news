@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 class SignUp(PermissionRequiredMixin, CreateView):
     # se definen los permisos requeridos para acceder
     permission_required = "accounts.add_user"
+    permission_denied_message = "Sorry, you don't have the permission to access"
     form_class = JournalistSignupForm
     # se usa reverse_lazy para garantizar que se guarde el signup antes de ir al login
     success_url = reverse_lazy('news_service:journalists_list')
@@ -41,9 +42,11 @@ class SignUp(PermissionRequiredMixin, CreateView):
 # con esta forma en lugar de borrar al usuario de la base de datos se establece el parametro is_active en False, con lo cual ya no se puede loguear en el sitio, recomendado
 
 
-class UserConfirmDelete(DetailView):
+class UserConfirmDelete(PermissionRequiredMixin, DetailView):
+    permission_required = "accounts.delete_user"
     model = User
     template_name = 'accounts/delete_journalist.html'
+    permission_denied_message = "Sorry, you don't have the permission to access"
 
     # funcion para poner is_active en False
     def delete_user(self, pk):
@@ -57,3 +60,14 @@ class UserConfirmDelete(DetailView):
         if request.method == 'POST':
             return self.delete_user(pk=self.kwargs['pk'])
         return super().dispatch(request, *args, **kwargs)
+
+
+class UserUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = "accounts.change_user"
+    permission_denied_message = "Sorry, you don't have the permission to access"
+    login_url = '/login/'
+    template_name = 'accounts/signup'
+    # redirect_field_name = 'news_service/board.html'
+    model = User
+    form_class = JournalistSignupForm
+    success_url = '/news_service/board.html'

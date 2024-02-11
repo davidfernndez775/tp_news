@@ -27,6 +27,16 @@ class BoardView(LoginRequiredMixin, generic.DetailView):
     model = models.Journalist
     template_name = 'news_service/board.html'
 
+    # funcion para agregar datos a la vista
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # comprobamos si el usuario pertenece al grupo chief editor
+        user_belongs_to_chief = self.request.user.groups.filter(
+            name='chief editor').exists()
+        # devolvemos el resultado de la comprobacion a la template tag que se va a usar en el template
+        context['user_belongs_to_chief'] = user_belongs_to_chief
+        return context
+
 
 class CreateNewsView(LoginRequiredMixin, generic.CreateView):
     model = models.Post
@@ -38,3 +48,16 @@ class CreateNewsView(LoginRequiredMixin, generic.CreateView):
 class JournalistsListView(generic.ListView):
     model = models.Journalist
     template_name = 'news_service/journalists.html'
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        user_belongs_to_chief = self.request.user.groups.filter(
+            name='chief editor').exists()
+        context["user_belongs_to_chief"] = user_belongs_to_chief
+        return context
+
+
+def check_user_group(request):
+    user_belongs_to_chief = request.user.groups.filter(
+        name='chief editor').exists()
+    return render(request, {'user_belongs_to_group': user_belongs_to_chief})
