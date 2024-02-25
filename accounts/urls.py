@@ -14,5 +14,10 @@ urlpatterns = [
     path('journalist_update/<int:pk>',
          views.UserUpdate.as_view(), name='user_update'),
     path('board/<slug:slug>', views.BoardView.as_view(), name='board'),
-    path('journalists', views.JournalistsListView.as_view(), name='journalists_list')
+    path('journalists', views.JournalistsListView.as_view(),
+         name='journalists_list'),
+    path('unactive_journalists', views.UnactiveJournalistsListView.as_view(),
+         name='unactive_journalists_list'),
+    path('reactive_journalist/<int:pk>',
+         views.UserConfirmReactivate.as_view(), name='reactive_journalist'),
 ]

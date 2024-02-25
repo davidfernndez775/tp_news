@@ -5,7 +5,7 @@
             {% csrf_token %}
             <h1>Are you sure you want to delete the journalist {{ user }}?</h1>
             <input type="submit" value="Confirm Delete" class="btn btn-danger">
-            <a href="{% url 'news_service:journalists_list' %}"
+            <a href="{% url 'accounts:journalists_list' %}"
                class="btn btn-secondary">Cancel</a>
         </form>
     </div>

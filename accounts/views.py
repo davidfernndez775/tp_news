@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, DetailView, UpdateView, ListView
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
@@ -18,7 +19,7 @@ class SignUp(PermissionRequiredMixin, CreateView):
     permission_denied_message = "Sorry, you don't have the permission to access"
     form_class = JournalistSignupForm
     # se usa reverse_lazy para garantizar que se guarde el signup antes de ir al login
-    success_url = reverse_lazy('news_service:journalists_list')
+    success_url = reverse_lazy('accounts:journalists_list')
     template_name = 'accounts/signup.html'
 
     def form_valid(self, form):
@@ -54,7 +55,7 @@ class UserConfirmDelete(PermissionRequiredMixin, DetailView):
         user = User.objects.get(pk=pk)
         user.is_active = False
         user.save()
-        return redirect('news_service:journalists_list')
+        return redirect('accounts:journalists_list')
 
     # como la confirmacion y la eliminacion se hacen en la misma pagina, es necesario usar dispath de tal manera que cuando se reciba un GET muestre la pagina, y cuando reciba un POST (o sea se ejecuta el formulario de eliminacion) devuelva la ejecucion de la funcion delete_user que esta dentro de la misma clase UserConfirmDelete
     def dispatch(self, request, *args, **kwargs):
@@ -74,7 +75,7 @@ class UserConfirmReactivate(PermissionRequiredMixin, DetailView):
         user = User.objects.get(pk=pk)
         user.is_active = True
         user.save()
-        return redirect('news_service:journalists_list')
+        return redirect('accounts:journalists_list')
 
     # como la confirmacion y la eliminacion se hacen en la misma pagina, es necesario usar dispath de tal manera que cuando se reciba un GET muestre la pagina, y cuando reciba un POST (o sea se ejecuta el formulario de eliminacion) devuelva la ejecucion de la funcion delete_user que esta dentro de la misma clase UserConfirmDelete
     def dispatch(self, request, *args, **kwargs):
@@ -93,7 +94,7 @@ class UserUpdate(PermissionRequiredMixin, UpdateView):
     form_class = MyUserUpdateForm
 
     def get_success_url(self):
-        return reverse_lazy('news_service:board', kwargs={'slug': self.object.slug})
+        return reverse_lazy('accounts:board', kwargs={'slug': self.object.slug})
 
 
 class BoardView(LoginRequiredMixin, DetailView):
@@ -134,3 +135,7 @@ class UnactiveJournalistsListView(PermissionRequiredMixin, ListView):
     permission_denied_message = "Sorry, you don't have the permission to access"
     model = Journalist
     template_name = 'accounts/unactive_journalists.html'
+
+    def get_queryset(self):
+        # se usa el termino user__ para acceder a los atributos de la tabla User con la Journalist tiene una relacion One to One
+        return Journalist.objects.filter(user__is_active=False)
