@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container" id="container-gen">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h1>Are you sure you want to reactive the journalist {{ user }}?</h1>
+            <input type="submit" value="Reactive" class="btn btn-success">
+            <a href="{% url 'news_service:journalists_list' %}"
+               class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock content %}

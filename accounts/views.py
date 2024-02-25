@@ -1,6 +1,7 @@
+from typing import Any
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import CreateView, DetailView, UpdateView
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from news_service.forms import JournalistSignupForm
@@ -62,6 +63,26 @@ class UserConfirmDelete(PermissionRequiredMixin, DetailView):
         return super().dispatch(request, *args, **kwargs)
 
 
+class UserConfirmReactivate(PermissionRequiredMixin, DetailView):
+    permission_required = "accounts.delete_user"
+    model = User
+    template_name = 'accounts/reactive_journalist.html'
+    permission_denied_message = "Sorry, you don't have the permission to access"
+
+    # funcion para poner is_active en False
+    def reactive_user(self, pk):
+        user = User.objects.get(pk=pk)
+        user.is_active = True
+        user.save()
+        return redirect('news_service:journalists_list')
+
+    # como la confirmacion y la eliminacion se hacen en la misma pagina, es necesario usar dispath de tal manera que cuando se reciba un GET muestre la pagina, y cuando reciba un POST (o sea se ejecuta el formulario de eliminacion) devuelva la ejecucion de la funcion delete_user que esta dentro de la misma clase UserConfirmDelete
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            return self.reactive_user(pk=self.kwargs['pk'])
+        return super().dispatch(request, *args, **kwargs)
+
+
 class UserUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = "accounts.change_user"
     permission_denied_message = "Sorry, you don't have the permission to access"
@@ -73,3 +94,43 @@ class UserUpdate(PermissionRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('news_service:board', kwargs={'slug': self.object.slug})
+
+
+class BoardView(LoginRequiredMixin, DetailView):
+    model = Journalist
+    template_name = 'accounts/board.html'
+
+    # funcion para agregar datos a la vista
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # comprobamos si el usuario pertenece al grupo chief editor
+        user_belongs_to_chief = self.request.user.groups.filter(
+            name='chief editor').exists()
+        # devolvemos el resultado de la comprobacion a la template tag que se va a usar en el template
+        context['user_belongs_to_chief'] = user_belongs_to_chief
+        return context
+
+
+class JournalistsListView(ListView):
+    model = Journalist
+    template_name = 'accounts/journalists.html'
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        user_belongs_to_chief = self.request.user.groups.filter(
+            name='chief editor').exists()
+        context["user_belongs_to_chief"] = user_belongs_to_chief
+        return context
+
+
+def check_user_group(request):
+    user_belongs_to_chief = request.user.groups.filter(
+        name='chief editor').exists()
+    return render(request, {'user_belongs_to_group': user_belongs_to_chief})
+
+
+class UnactiveJournalistsListView(PermissionRequiredMixin, ListView):
+    permission_required = "accounts.add_user"
+    permission_denied_message = "Sorry, you don't have the permission to access"
+    model = Journalist
+    template_name = 'accounts/unactive_journalists.html'

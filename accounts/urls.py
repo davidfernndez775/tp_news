@@ -12,5 +12,7 @@ urlpatterns = [
     path('delete_journalist/<int:pk>',
          views.UserConfirmDelete.as_view(), name='delete_journalist'),
     path('journalist_update/<int:pk>',
-         views.UserUpdate.as_view(), name='user_update')
+         views.UserUpdate.as_view(), name='user_update'),
+    path('board/<slug:slug>', views.BoardView.as_view(), name='board'),
+    path('journalists', views.JournalistsListView.as_view(), name='journalists_list')
 ]
