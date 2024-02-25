@@ -2,6 +2,7 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, DetailView, UpdateView, ListView
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
@@ -139,3 +140,12 @@ class UnactiveJournalistsListView(PermissionRequiredMixin, ListView):
     def get_queryset(self):
         # se usa el termino user__ para acceder a los atributos de la tabla User con la Journalist tiene una relacion One to One
         return Journalist.objects.filter(user__is_active=False)
+
+
+class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'accounts/change_password.html'
+
+    def get_success_url(self):
+        # tomamos el usuario autenticado y se lo pasamos a Journalist que es la tabla que tiene el slug
+        user = Journalist.objects.get(user=self.request.user)
+        return reverse_lazy('accounts:board', kwargs={'slug': user.slug})

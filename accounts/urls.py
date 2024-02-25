@@ -20,4 +20,6 @@ urlpatterns = [
          name='unactive_journalists_list'),
     path('reactive_journalist/<int:pk>',
          views.UserConfirmReactivate.as_view(), name='reactive_journalist'),
+    path('change_password', views.ChangePasswordView.as_view(),
+         name='change_password'),
 ]
