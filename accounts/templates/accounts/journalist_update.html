@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block content %}
+    <div class="container" id="container-gen">
+        <h2>Update</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button class="btn btn-primary" type="submit">Update</button>
+        </form>
+    </div>
+{% endblock content %}

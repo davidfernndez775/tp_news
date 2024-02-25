@@ -11,5 +11,6 @@ urlpatterns = [
     path('signup/', views.SignUp.as_view(), name='signup'),
     path('delete_journalist/<int:pk>',
          views.UserConfirmDelete.as_view(), name='delete_journalist'),
-    # path('delete_journalist/<int:pk>', views.delete_user, name='delete_user')
+    path('journalist_update/<int:pk>',
+         views.UserUpdate.as_view(), name='user_update')
 ]

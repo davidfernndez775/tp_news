@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from news_service.forms import JournalistSignupForm
 from django.contrib.auth.models import User, Group
 from news_service.models import Journalist
-from accounts.forms import MyUserCreateForm
+from accounts.forms import MyUserUpdateForm
 from django.contrib.auth.models import User
 # Create your views here.
 
@@ -66,8 +66,10 @@ class UserUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = "accounts.change_user"
     permission_denied_message = "Sorry, you don't have the permission to access"
     login_url = '/login/'
-    template_name = 'accounts/signup'
+    template_name = 'accounts/journalist_update.html'
     # redirect_field_name = 'news_service/board.html'
-    model = User
-    form_class = JournalistSignupForm
-    success_url = '/news_service/board.html'
+    model = Journalist
+    form_class = MyUserUpdateForm
+
+    def get_success_url(self):
+        return reverse_lazy('news_service:board', kwargs={'slug': self.object.slug})

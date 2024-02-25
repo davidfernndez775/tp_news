@@ -70,7 +70,10 @@
                         <a class="btn btn-primary" type="button" id="profile-button">Pedding Comments</a>
                     </li>
                     <li>
-                        <a class="btn btn-primary" type="button" id="profile-button">Edit Profile</a>
+                        <a class="btn btn-primary"
+                           type="button"
+                           id="profile-button"
+                           href="{% url "accounts:user_update" pk=journalist.user.pk %}">Edit Profile</a>
                     </li class="nav-item">
                     {% if user_belongs_to_chief %}
                         <li class="nav-item">
