@@ -40,3 +40,13 @@ class NewsCreateForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'class': 'form-control'}),
             'theme': forms.Select(attrs={'class': 'form-control'}),
         }
+
+
+class AddThemeForm(forms.ModelForm):
+    class Meta:
+        model = models.Theme
+        fields = ['theme']
+
+        widgets = {
+            'theme': forms.TextInput(attrs={'class': 'form-control'}),
+        }
