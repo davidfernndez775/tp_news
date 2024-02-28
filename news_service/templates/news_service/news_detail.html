@@ -12,7 +12,7 @@
         <p>{{ post.content }}</p>
     </div>
     <div class="container" id="about_author">
-        <p>Author: {{ post.main_author.first_name }} {{ post.main_author.last_name }}</p>
+        <p>Author: {{ post.main_author.user.first_name }} {{ post.main_author.user.last_name }}</p>
         <p>{{ post.main_author.description }}</p>
     </div>
 {% endblock main_content %}

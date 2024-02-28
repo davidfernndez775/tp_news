@@ -137,14 +137,14 @@ class Bulletin_Suscriptor(models.Model):
     email = models.EmailField(max_length=254)
 
 
-@receiver(post_save, sender=Post)
-def create_journalist(sender, instance, created, **kwargs):
-    if created:
-        print("Signal triggered!")
-        # Obtener el primer Journalist asociado al usuario
-        journalist = instance.main_author.first()
+# @receiver(post_save, sender=Post)
+# def create_journalist(sender, instance, created, **kwargs):
+#     if created:
+#         print("Signal triggered!")
+#         # Obtener el primer Journalist asociado al usuario
+#         journalist = instance.main_author.username()
 
-        # Si hay un Journalist, asociarlo al Post
-        if journalist:
-            JournalistPost.objects.create(
-                journalist=journalist, posts=instance)
+#         # Si hay un Journalist, asociarlo al Post
+#         if journalist:
+#             JournalistPost.objects.create(
+#                 journalist=journalist, posts=instance)

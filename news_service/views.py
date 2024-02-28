@@ -8,10 +8,12 @@ from . import models
 from . import forms
 from django.contrib.auth import get_user_model
 User = get_user_model()  # nopep8
+from django.http import request
+from django.shortcuts import redirect
 
 
 # Create your views here.
-# VISTAS RELACIONADAS CON NEWS
+# VISTAS RELACIONADAS CON POST
 
 class ThemeCreateView(PermissionRequiredMixin, generic.CreateView):
     permission_required = 'news_service.add_theme'
@@ -38,11 +40,18 @@ class CreateNewsView(LoginRequiredMixin, generic.CreateView):
     model = models.Post
     form_class = forms.NewsCreateForm
     template_name = 'news_service/create_news.html'
-    success_url = "news_service/news_list.html"
+    success_url = "//"
 
-    def form_valid(self, form):
-        form.instance.main_author = self.request.user.journalist
-        return super().form_valid(form)
+    def get(self, request):
+        form = forms.NewsCreateForm()
+        return render(request, 'news_service/create_news.html', {'form': form})
 
-
-# VISTAS RELACIONADAS CON JOURNALISTS
+    def post(self, request):
+        form = forms.NewsCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.main_author = self.request.user.journalist
+            form.save()
+            # Resto del código de redirección o respuesta
+            return redirect('news_service:news_list')
+        else:
+            return render(request, 'tu_template.html', {'form': form})
