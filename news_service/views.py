@@ -30,6 +30,19 @@ class NewsListView(generic.ListView):
     model = models.Post
     template_name = 'news_service/news_list.html'
 
+    def get_queryset(self):
+        return models.Post.objects.filter(approve=True)
+
+
+class UnapproveNewsListView(PermissionRequiredMixin, generic.ListView):
+    permission_required = 'news_service.delete_post'
+    permission_denied_message = "Sorry, you don't have the permission to access"
+    model = models.Post
+    template_name = 'news_service/unapprove_news.html'
+
+    def get_queryset(self):
+        return models.Post.objects.filter(approve=False)
+
 
 class NewsDetailView(generic.DetailView):
     model = models.Post

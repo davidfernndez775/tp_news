@@ -83,7 +83,10 @@
                                href="{% url "accounts:journalists_list" %}">Manage journalists</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-primary" type="button" id="profile-button">Pedding Posts</a>
+                            <a class="btn btn-primary"
+                               type="button"
+                               id="profile-button"
+                               href="{% url "news_service:unapprove_news" %}">Pedding Posts</a>
                         </li>
                         <li class="nav-item">
                             <a class="btn btn-primary"
