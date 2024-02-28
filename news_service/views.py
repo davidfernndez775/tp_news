@@ -40,5 +40,9 @@ class CreateNewsView(LoginRequiredMixin, generic.CreateView):
     template_name = 'news_service/create_news.html'
     success_url = "news_service/news_list.html"
 
+    def form_valid(self, form):
+        form.instance.main_author = self.request.user.journalist
+        return super().form_valid(form)
+
 
 # VISTAS RELACIONADAS CON JOURNALISTS

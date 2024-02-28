@@ -31,15 +31,19 @@ class JournalistSignupForm(MyUserCreateForm):
 class NewsCreateForm(forms.ModelForm):
     class Meta:
         model = models.Post
-        fields = ['title', 'other_authors', 'image', 'content', 'theme']
+        fields = ['title', 'image', 'content', 'theme']
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'other_authors': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'other_authors': forms.SelectMultiple(attrs={'class': 'form-control', 'id': 'id_other_authors'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
             'theme': forms.Select(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image'].required = False
 
 
 class AddThemeForm(forms.ModelForm):

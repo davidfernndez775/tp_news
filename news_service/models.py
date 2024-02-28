@@ -52,7 +52,7 @@ class Post(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     publish_date = models.DateTimeField(auto_now_add=True)
-    approve = models.BooleanField()
+    approve = models.BooleanField(default=False)
     theme = models.ForeignKey(
         Theme, related_name='themes', on_delete=models.CASCADE)
 
@@ -74,10 +74,6 @@ class Post(models.Model):
         '''aprueba un post'''
         self.approve = True
         self.save()
-
-    # def get_absolute_url(self):
-    #     '''funcion por defecto para cuando termine de crear un post vaya a una url determinada'''
-    #     return reverse("news_detail", kwargs={"slug": self.slug})
 
     class Meta:
         # definimos el orden en que queremos ver los grupos
@@ -146,7 +142,7 @@ def create_journalist(sender, instance, created, **kwargs):
     if created:
         print("Signal triggered!")
         # Obtener el primer Journalist asociado al usuario
-        journalist = instance.author.first()
+        journalist = instance.main_author.first()
 
         # Si hay un Journalist, asociarlo al Post
         if journalist:

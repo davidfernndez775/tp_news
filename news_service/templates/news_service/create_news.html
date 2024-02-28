@@ -4,12 +4,40 @@
         <form action="" method="post">
             <h3>News Creation Form</h3>
             {{ form.as_p }}
+            {{ form.other_authors }}
             {% csrf_token %}
+            <div class="col-md-2">
+                <button type="button" id="agregar">Agregar &gt;&gt;</button>
+                <button type="button" id="quitar">&lt;&lt; Quitar</button>
+            </div>
+            <div class="col-md-5">
+                <select id="id_other_authors_selected"
+                        class="form-control"
+                        multiple
+                        name="other_authors_selected"></select>
+            </div>
             <div class="mb-3">
                 <button class="btn btn-primary d-block w-100"
                         type="submit"
                         id="login-button2">Create</button>
             </div>
         </form>
+        <script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById('agregar').addEventListener('click', function() {
+    var selectedOptions = document.querySelector('#id_other_authors option:checked');
+    selectedOptions.forEach(function(option) {
+      document.querySelector('#id_other_authors_selected').appendChild(option.cloneNode(true));
+    });
+  });
+
+  document.getElementById('quitar').addEventListener('click', function() {
+    var selectedOptions = document.querySelector('#id_other_authors_selected option:checked');
+    selectedOptions.forEach(function(option) {
+      document.querySelector('#id_other_authors').appendChild(option.cloneNode(true));
+    });
+  });
+});
+        </script>
     </div>
 {% endblock content %}
