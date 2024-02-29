@@ -1,5 +1,5 @@
 from typing import Any
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse, reverse_lazy
@@ -9,12 +9,13 @@ from . import forms
 from django.contrib.auth import get_user_model
 User = get_user_model()  # nopep8
 from django.http import request
-from django.shortcuts import redirect
+# from accounts.views import check_user_group
 
 
 # Create your views here.
 # VISTAS RELACIONADAS CON POST
 
+# vista para creacion de temas
 class ThemeCreateView(PermissionRequiredMixin, generic.CreateView):
     permission_required = 'news_service.add_theme'
     permission_denied_message = "Sorry, you don't have the permission to access"
@@ -26,6 +27,7 @@ class ThemeCreateView(PermissionRequiredMixin, generic.CreateView):
         return reverse_lazy('accounts:board', kwargs={'slug': user.slug})
 
 
+# vista para ver la lista de news
 class NewsListView(generic.ListView):
     model = models.Post
     template_name = 'news_service/news_list.html'
@@ -34,6 +36,7 @@ class NewsListView(generic.ListView):
         return models.Post.objects.filter(approve=True)
 
 
+# vista para ver la lista de news pendientes
 class UnapproveNewsListView(PermissionRequiredMixin, generic.ListView):
     permission_required = 'news_service.delete_post'
     permission_denied_message = "Sorry, you don't have the permission to access"
@@ -47,6 +50,14 @@ class UnapproveNewsListView(PermissionRequiredMixin, generic.ListView):
 class NewsDetailView(generic.DetailView):
     model = models.Post
     template_name = 'news_service/news_detail.html'
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        user_belongs_to_chief = self.request.user.groups.filter(
+            name='chief editor').exists()
+        context["user_belongs_to_chief"] = user_belongs_to_chief
+        context["approve"] = self.object.approve
+        return context
 
 
 class CreateNewsView(LoginRequiredMixin, generic.CreateView):

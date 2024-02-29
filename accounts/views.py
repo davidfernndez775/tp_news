@@ -125,12 +125,6 @@ class JournalistsListView(ListView):
         return context
 
 
-def check_user_group(request):
-    user_belongs_to_chief = request.user.groups.filter(
-        name='chief editor').exists()
-    return render(request, {'user_belongs_to_group': user_belongs_to_chief})
-
-
 class UnactiveJournalistsListView(PermissionRequiredMixin, ListView):
     permission_required = "accounts.add_user"
     permission_denied_message = "Sorry, you don't have the permission to access"
