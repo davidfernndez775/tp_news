@@ -11,4 +11,6 @@ urlpatterns = [
          views.CreateNewsView.as_view(), name='create_news'),
     path('unapprove_news', views.UnapproveNewsListView.as_view(),
          name='unapprove_news'),
+    path('post/<int:pk>/approve/', views.approve_post, name='approve_post'),
+    path('post/<int:pk>/hide/', views.hide_post, name='hide_post'),
 ]

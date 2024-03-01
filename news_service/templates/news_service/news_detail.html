@@ -18,13 +18,15 @@
     <div>
         {% if user_belongs_to_chief %}
             {% if approve %}
-                <a class="btn btn-danger"
-                   type="button"
-                   href="{% url "news_service:news_list" %}">Remove</a>
+                <form method="post" action="{% url 'news_service:hide_post' post.pk %}">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                </form>
             {% else %}
-                <a class="btn btn-success"
-                   type="button"
-                   href="{% url "news_service:news_list" %}">Approve</a>
+                <form method="post" action="{% url 'news_service:approve_post' post.pk %}">
+                    {% csrf_token %}
+                    <button class="btn btn-success" type="submit">Approve</button>
+                </form>
             {% endif %}
         {% endif %}
     </div>

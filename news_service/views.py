@@ -60,6 +60,18 @@ class NewsDetailView(generic.DetailView):
         return context
 
 
+def approve_post(request, pk):
+    post = get_object_or_404(models.Post, pk=pk)
+    post.approve_post()
+    return redirect(reverse('news_service:news_list'))
+
+
+def hide_post(request, pk):
+    post = get_object_or_404(models.Post, pk=pk)
+    post.hide_post()
+    return redirect(reverse('news_service:unapprove_news'))
+
+
 class CreateNewsView(LoginRequiredMixin, generic.CreateView):
     model = models.Post
     form_class = forms.NewsCreateForm

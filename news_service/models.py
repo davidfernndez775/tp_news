@@ -75,6 +75,11 @@ class Post(models.Model):
         self.approve = True
         self.save()
 
+    def hide_post(self):
+        '''quita la aprobacion de un post'''
+        self.approve = False
+        self.save()
+
     class Meta:
         # definimos el orden en que queremos ver los grupos
         ordering = ['-publish_date']
