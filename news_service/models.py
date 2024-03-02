@@ -135,11 +135,11 @@ class Comment(models.Model):
         self.save()
 
     def get_absolute_url(self):
-        '''funcion por defecto para cuando termine de crear un post vaya a una url determinada'''
+        '''funcion por defecto para cuando termine de crear un comentario vaya a una url determinada'''
         return reverse("comment_detail", kwargs={"pk": self.pk})
 
     def publish_comment(self):
-        '''define la fecha de publicacion de un post'''
+        '''define la fecha de publicacion de un comentario'''
         self.publish_date = timezone.now()
         self.save()
 
@@ -149,9 +149,10 @@ class Comment(models.Model):
         unique_together = ['user', 'content']
 
 
-class Bulletin_Suscriptor(models.Model):
-    username = models.CharField(max_length=50)
-    email = models.EmailField(max_length=254)
+class Client(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='client', primary_key=True)
+    bulletin_suscriptor = models.BooleanField(default=False)
 
 
 # @receiver(post_save, sender=Post)

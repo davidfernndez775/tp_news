@@ -2,7 +2,7 @@ from typing import Any
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from news_service.models import Journalist
+from news_service.models import Journalist, Client
 
 
 class MyUserCreateForm(UserCreationForm):
@@ -69,3 +69,16 @@ class MyUserUpdateForm(forms.ModelForm):
             user.save()
             self.instance.save()
         return self.instance
+
+
+class ClientCreateForm(UserCreationForm):
+    username = forms.CharField(
+        required=True, help_text='Required. Enter your new username.')
+    email = forms.EmailField(
+        required=True, help_text='Required. Enter your new email.')
+    bulletin_suscriptor = forms.BooleanField()
+
+    class Meta:
+        model = User
+        fields = UserCreationForm.Meta.fields + \
+            ('email', 'bulletin_suscriptor')

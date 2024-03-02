@@ -19,7 +19,7 @@ admin.site.register(models.Journalist)
 admin.site.register(models.Post)
 admin.site.register(models.Theme)
 admin.site.register(models.Comment)
-admin.site.register(models.Bulletin_Suscriptor)
+admin.site.register(models.Client)
 
 
 class UserAdmin(BaseUserAdmin):

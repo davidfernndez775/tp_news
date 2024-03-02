@@ -91,6 +91,7 @@ class NewsDetailView(generic.DetailView):
 def approve_post(request, pk):
     post = get_object_or_404(models.Post, pk=pk)
     post.approve_post()
+    post.publish_post()
     return redirect(reverse('news_service:news_list'))
 
 
