@@ -38,6 +38,12 @@ class Journalist(models.Model):
         super().save(*args, **kwargs)
 
 
+# Definimos un manager para las noticias aprobadas
+class ApprovePostManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(approve=True)
+
+
 class Post(models.Model):
     title = models.TextField(max_length=256)
     slug = models.SlugField(allow_unicode=True, unique=True, editable=False)
@@ -55,6 +61,12 @@ class Post(models.Model):
     approve = models.BooleanField(default=False)
     theme = models.ForeignKey(
         Theme, related_name='themes', on_delete=models.CASCADE)
+
+    # asignamos los managers, si agregamos managers personalizados tenemos que especificar el manager por defecto
+    objects = models.Manager()
+    approve_news = ApprovePostManager()
+
+    # creamos los metodos de la clase Post
 
     def __str__(self) -> str:
         return self.title

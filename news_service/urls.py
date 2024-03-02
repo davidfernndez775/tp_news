@@ -13,4 +13,7 @@ urlpatterns = [
          name='unapprove_news'),
     path('post/<int:pk>/approve/', views.approve_post, name='approve_post'),
     path('post/<int:pk>/hide/', views.hide_post, name='hide_post'),
+    path('politics', views.PoliticsListView.as_view(), name='politics'),
+    path('economics', views.EconomicsListView.as_view(), name='economics'),
+    path('sports', views.SportsListViews.as_view(), name='sports'),
 ]

@@ -167,3 +167,19 @@
   width: 100px;
   height: 100px;
 }
+
+#about_author {
+  background-color: #212529;
+  color: #c3c2c2;
+}
+
+#journalist-info {
+  height: fit-content;
+  padding: 20px;
+  margin: 20px;
+}
+
+#journalist-photo-detail {
+  height: 100px;
+  width: 100px;
+}

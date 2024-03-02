@@ -1,0 +1,30 @@
+{% extends "base_with_sidebar.html" %}
+{% block title %}
+    Sports
+{% endblock title %}
+{% block main_content %}
+    <div class="container" id="title-container">
+        <h3>Sports</h3>
+    </div>
+    <div class="row gy-4 row-col-1 row-cols-md-2">
+        {% for post in post_list|slice:":4" %}
+            {% comment %} se agrega el slice para limitar la cantidad de resultados {% endcomment %}
+            <div class="col">
+                <div class="card" id="news-container">
+                    <img src="{{ post.image.url }}" width="100%" height="100%" alt="">
+                    <div class="card-header">
+                        <h4>
+                            <a id="card-title"
+                               href="{% url "news_service:news_detail" slug=post.slug %}">{{ post.title }}</a>
+                        </h4>
+                        <p class="card-text">Published on: {{ post.publish_date|date:"D M Y" }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock main_content %}
+{% comment %} Sidebar {% endcomment %}
+{% block sidebar %}
+    <div class="container" id="sidebar-container">{% include "news_service/sidebar.html" %}</div>
+{% endblock sidebar %}

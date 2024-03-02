@@ -12,8 +12,20 @@
         <p>{{ post.content }}</p>
     </div>
     <div class="container" id="about_author">
-        <p>Author: {{ post.main_author.user.first_name }} {{ post.main_author.user.last_name }}</p>
-        <p>{{ post.main_author.description }}</p>
+        <div class="row" id="journalist-info">
+            <div class="col-md-4">
+                <img class="img-circle profile-pic"
+                     src="{{ user.journalist.photo.url }}"
+                     alt=""
+                     width="100%"
+                     height="100%"
+                     id="journalist-photo-detail">
+                <p>Author: {{ post.main_author.user.first_name }} {{ post.main_author.user.last_name }}</p>
+            </div>
+            <div class="col-md-8">
+                <p>{{ post.main_author.description }}</p>
+            </div>
+        </div>
     </div>
     <div>
         {% if user_belongs_to_chief %}

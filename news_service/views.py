@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -47,6 +48,32 @@ class UnapproveNewsListView(PermissionRequiredMixin, generic.ListView):
         return models.Post.objects.filter(approve=False)
 
 
+# vistas de listas filtradas
+class PoliticsListView(generic.ListView):
+    model = models.Post
+    template_name = 'news_service/politics.html'
+
+    def get_queryset(self):
+        return models.Post.approve_news.filter(approve=True, theme__theme='politics')
+
+
+class EconomicsListView(generic.ListView):
+    model = models.Post
+    template_name = 'news_service/economics.html'
+
+    def get_queryset(self):
+        return models.Post.approve_news.filter(theme__theme='economics')
+
+
+class SportsListViews(generic.ListView):
+    model = models.Post
+    template_name = 'news_service/sports.html'
+
+    def get_queryset(self):
+        return models.Post.approve_news.filter(theme__theme='sports')
+
+
+# vista detalle
 class NewsDetailView(generic.DetailView):
     model = models.Post
     template_name = 'news_service/news_detail.html'
@@ -60,6 +87,7 @@ class NewsDetailView(generic.DetailView):
         return context
 
 
+# metodos para aprobacion o desaprobacion de noticias
 def approve_post(request, pk):
     post = get_object_or_404(models.Post, pk=pk)
     post.approve_post()
@@ -72,6 +100,7 @@ def hide_post(request, pk):
     return redirect(reverse('news_service:unapprove_news'))
 
 
+# vista para crear noticias
 class CreateNewsView(LoginRequiredMixin, generic.CreateView):
     model = models.Post
     form_class = forms.NewsCreateForm
