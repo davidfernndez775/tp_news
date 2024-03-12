@@ -152,7 +152,7 @@ class Comment(models.Model):
     class Meta:
         # definimos el orden en el que queremos ver los posts
         ordering = ['-create_date']
-        unique_together = ['user', 'content']
+        unique_together = ['author', 'content']
 
 
 # @receiver(post_save, sender=Post)

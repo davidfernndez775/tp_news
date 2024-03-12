@@ -120,4 +120,24 @@ class CreateNewsView(LoginRequiredMixin, generic.CreateView):
             # Resto del código de redirección o respuesta
             return redirect('news_service:news_list')
         else:
-            return render(request, 'tu_template.html', {'form': form})
+            return render(request, 'news_service/create_news.html', {'form': form})
+
+
+class CreateCommentView(generic.CreateView):
+    model = models.Comment
+    form_class = forms.CommentCreateForm
+    template_name = 'news_service/create_comment.html'
+
+    def get(self, request):
+        form = forms.NewsCreateForm()
+        return render(request, 'news_service/create_comment.html', {'form': form})
+
+    def post(self, request):
+        form = forms.NewsCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.main_author = self.request.user.journalist
+            form.save()
+            # Resto del código de redirección o respuesta
+            return reverse("comment_detail", kwargs={"pk": self.pk})
+        else:
+            return render(request, 'news_service/create_comment.html', {'form': form})

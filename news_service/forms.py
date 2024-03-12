@@ -54,3 +54,13 @@ class AddThemeForm(forms.ModelForm):
         widgets = {
             'theme': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+
+class CommentCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.Comment
+        fields = ['content']
+
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control'})
+        }

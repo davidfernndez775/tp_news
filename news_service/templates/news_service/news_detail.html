@@ -43,13 +43,18 @@
         {% endif %}
     </div>
     <div>
-        <h4>Comments</h4>
+        <div class="container" id="title-container">
+            <h4>Comments</h4>
+        </div>
         <div>
             <a class="btn btn-success" href="">Add Comment</a>
         </div>
         {% for comment in comment_list %}
             <div class="container" id="comment-cage">
-                <p></p>
+                <p>
+                    <strong>{{ comment.author }}</strong>
+                </p>
+                <p>{{ comment.content }}</p>
             </div>
         {% endfor %}
     </div>
