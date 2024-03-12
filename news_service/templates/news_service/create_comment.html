@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block content %}
+    <div class="container" id="news-create-container">
+        <form action="" method="post" enctype="multipart/form-data">
+            <h3>Comment Creation Form</h3>
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="mb-3">
+                <button class="btn btn-primary d-block w-100"
+                        type="submit"
+                        id="login-button2">Create</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

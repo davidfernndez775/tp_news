@@ -129,11 +129,11 @@ class CreateCommentView(LoginRequiredMixin, generic.CreateView):
     template_name = 'news_service/create_comment.html'
 
     def get(self, request):
-        form = forms.NewsCreateForm()
+        form = forms.CommentCreateForm()
         return render(request, 'news_service/create_comment.html', {'form': form})
 
     def post(self, request):
-        form = forms.NewsCreateForm(request.POST, request.FILES)
+        form = forms.CommentCreateForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.author = self.request.user.client
             form.save()

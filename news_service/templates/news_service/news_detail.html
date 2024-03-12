@@ -47,7 +47,8 @@
             <h4>Comments</h4>
         </div>
         <div>
-            <a class="btn btn-success" href="">Add Comment</a>
+            <a class="btn btn-success"
+               href="{% url "news_service:create_comment" %}">Add Comment</a>
         </div>
         {% for comment in comment_list %}
             <div class="container" id="comment-cage">

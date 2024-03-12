@@ -67,7 +67,19 @@ class CommentCreateForm(forms.ModelForm):
 
 
 class ClientSignupForm(MyUserCreateForm):
+    bulletin_suscriptor = forms.BooleanField()
 
     # la clase Meta hereda del formulario por defecto para User
     class Meta(MyUserCreateForm.Meta):
         model = User
+
+    @transaction.atomic
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        user.save()
+        # creamos una instancia de Client y guardamos los datos del formulario
+        client = models.Client.objects.create(
+            user=user, bulletin_suscriptor=self.cleaned_data['bulletin_suscriptor'])
+
+        return user

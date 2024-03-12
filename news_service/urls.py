@@ -16,4 +16,5 @@ urlpatterns = [
     path('politics', views.PoliticsListView.as_view(), name='politics'),
     path('economics', views.EconomicsListView.as_view(), name='economics'),
     path('sports', views.SportsListViews.as_view(), name='sports'),
+    path('create_comment', views.CreateCommentView.as_view(), name='create_comment'),
 ]

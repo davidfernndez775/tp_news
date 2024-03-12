@@ -22,4 +22,6 @@ urlpatterns = [
          views.UserConfirmReactivate.as_view(), name='reactive_journalist'),
     path('change_password', views.ChangePasswordView.as_view(),
          name='change_password'),
+    path('client_signup', views.ClientSignup.as_view(),
+         name='client_signup'),
 ]
