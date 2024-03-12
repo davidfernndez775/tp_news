@@ -111,9 +111,15 @@ class JournalistPost(models.Model):
         unique_together = ('posts', 'journalist')
 
 
+class Client(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='client', primary_key=True)
+    bulletin_suscriptor = models.BooleanField(default=False)
+
+
 class Comment(models.Model):
-    user = models.ForeignKey(
-        User, related_name='author', on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        Client, related_name='author', on_delete=models.CASCADE)
     post = models.ForeignKey(Post, related_name='post',
                              on_delete=models.CASCADE)
     content = models.TextField()
@@ -147,12 +153,6 @@ class Comment(models.Model):
         # definimos el orden en el que queremos ver los posts
         ordering = ['-create_date']
         unique_together = ['user', 'content']
-
-
-class Client(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='client', primary_key=True)
-    bulletin_suscriptor = models.BooleanField(default=False)
 
 
 # @receiver(post_save, sender=Post)

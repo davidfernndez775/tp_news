@@ -15,7 +15,7 @@
         <div class="row" id="journalist-info">
             <div class="col-md-4">
                 <img class="img-circle profile-pic"
-                     src="{{ user.journalist.photo.url }}"
+                     src="{{ post.main_author.photo.url }}"
                      alt=""
                      width="100%"
                      height="100%"
@@ -43,7 +43,15 @@
         {% endif %}
     </div>
     <div>
-        <p>Comment Section</p>
+        <h4>Comments</h4>
+        <div>
+            <a class="btn btn-success" href="">Add Comment</a>
+        </div>
+        {% for comment in comment_list %}
+            <div class="container" id="comment-cage">
+                <p></p>
+            </div>
+        {% endfor %}
     </div>
 {% endblock main_content %}
 {% comment %} Sidebar {% endcomment %}
