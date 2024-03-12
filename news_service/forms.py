@@ -11,6 +11,7 @@ class JournalistSignupForm(MyUserCreateForm):
     # se agregan los campos adicionales para Journalist
     photo = forms.ImageField(required=True)
     description = forms.CharField(widget=forms.Textarea, required=True)
+    bulletin_suscriptor = forms.BooleanField()
 
     # la clase Meta hereda del formulario por defecto para User
     class Meta(MyUserCreateForm.Meta):
@@ -25,6 +26,10 @@ class JournalistSignupForm(MyUserCreateForm):
         journalist = models.Journalist.objects.create(
             user=user, photo=self.cleaned_data['photo'], description=self.cleaned_data['description'])
 
+        if commit:
+            # Crear el objeto Client asociado al usuario
+            models.Client.objects.create(
+                user=user, bulletin_suscriptor=self.cleaned_data['bulletin_suscriptor'])
         return user
 
 

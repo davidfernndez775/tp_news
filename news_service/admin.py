@@ -15,6 +15,12 @@ class JournalistInline(admin.StackedInline):
     verbose_name_plural = "journalists"
 
 
+class ClientInline(admin.StackedInline):
+    model = models.Client
+    can_delete = False
+    verbose_name_plural = "clients"
+
+
 admin.site.register(models.Journalist)
 admin.site.register(models.Post)
 admin.site.register(models.Theme)
@@ -23,7 +29,7 @@ admin.site.register(models.Client)
 
 
 class UserAdmin(BaseUserAdmin):
-    inlines = [JournalistInline]
+    inlines = [JournalistInline, ClientInline]
 
 
 # Re-register UserAdmin

@@ -133,9 +133,14 @@ class CreateCommentView(LoginRequiredMixin, generic.CreateView):
         return render(request, 'news_service/create_comment.html', {'form': form})
 
     def post(self, request):
+        # Obtén el post relacionado usando el ID pasado en la URL
+        post_id = self.kwargs['post_id']
+        post = get_object_or_404(models.Post, pk=post_id)
+
         form = forms.CommentCreateForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.author = self.request.user.client
+            form.instance.post = post  # Asigna el post al comentario
             form.save()
             # Resto del código de redirección o respuesta
             return reverse("comment_detail", kwargs={"pk": self.pk})

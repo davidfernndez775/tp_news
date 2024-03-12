@@ -37,6 +37,10 @@ class Journalist(models.Model):
         self.slug = slugify(self.user.username)
         super().save(*args, **kwargs)
 
+        # Crear un objeto Client asociado al mismo usuario
+        if not hasattr(self, 'client'):
+            Client.objects.create(user=self.user)
+
 
 # Definimos un manager para las noticias aprobadas
 class ApprovePostManager(models.Manager):
@@ -116,17 +120,20 @@ class Client(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='client', primary_key=True)
     bulletin_suscriptor = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.user.username
+
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        Client, related_name='author', on_delete=models.CASCADE)
+        Client, related_name='author', on_delete=models.CASCADE, db_column='user_id')  # agrega db_column para especificar la columna de la tabla Client a la que se hace referencia
     post = models.ForeignKey(Post, related_name='post',
                              on_delete=models.CASCADE)
     content = models.TextField()
     content_html = models.TextField(editable=False)
     create_date = models.DateTimeField(auto_now_add=True)
     publish_date = models.DateTimeField(auto_now_add=True)
-    approve = models.BooleanField()
+    approve = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.content
