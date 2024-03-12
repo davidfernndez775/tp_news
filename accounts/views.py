@@ -6,7 +6,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from news_service.forms import JournalistSignupForm
+from news_service.forms import JournalistSignupForm, ClientSignupForm
 from django.contrib.auth.models import User, Group
 from news_service.models import Journalist
 from accounts.forms import MyUserUpdateForm
@@ -143,3 +143,11 @@ class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
         # tomamos el usuario autenticado y se lo pasamos a Journalist que es la tabla que tiene el slug
         user = Journalist.objects.get(user=self.request.user)
         return reverse_lazy('accounts:board', kwargs={'slug': user.slug})
+
+
+class ClientSignup(CreateView):
+    # se definen los permisos requeridos para acceder
+    form_class = ClientSignupForm
+    # se usa reverse_lazy para garantizar que se guarde el signup antes de ir al login
+    success_url = reverse_lazy('news_service:news_list')
+    template_name = 'accounts/client_signup.html'

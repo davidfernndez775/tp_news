@@ -64,3 +64,10 @@ class CommentCreateForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'class': 'form-control'})
         }
+
+
+class ClientSignupForm(MyUserCreateForm):
+
+    # la clase Meta hereda del formulario por defecto para User
+    class Meta(MyUserCreateForm.Meta):
+        model = User
