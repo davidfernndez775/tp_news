@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-import misaka
+# import misaka
 from django.contrib.auth import get_user_model
 User = get_user_model()  # nopep8
 from django.utils import timezone
@@ -83,7 +83,7 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         '''funcion que mejora la visualidad en la direccion del navegador'''
         self.slug = slugify(self.title)
-        self.content_html = misaka.html(self.content)
+        # self.content_html = misaka.html(self.content)
         super().save(*args, **kwargs)
 
     def approve_post(self):
@@ -126,7 +126,8 @@ class Client(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        Client, related_name='author', on_delete=models.CASCADE, db_column='user_id')  # agrega db_column para especificar la columna de la tabla Client a la que se hace referencia
+        # agrega db_column para especificar la columna de la tabla Client a la que se hace referencia
+        Client, related_name='author', on_delete=models.CASCADE, default=None)
     post = models.ForeignKey(Post, related_name='post',
                              on_delete=models.CASCADE)
     content = models.TextField()
@@ -139,7 +140,7 @@ class Comment(models.Model):
         return self.content
 
     def save(self, *args, **kwargs):
-        self.content_html = misaka.html(self.content)
+        # self.content_html = misaka.html(self.content)
         super().save(*args, **kwargs)
 
     def approve_comment(self):
